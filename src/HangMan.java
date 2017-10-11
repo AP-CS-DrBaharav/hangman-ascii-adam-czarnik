@@ -16,7 +16,7 @@ public class HangMan {
 
     String word;
     String wordLowerCase;
-    String lettersTried;
+    String lettersTried = "                          ";
     String wordRevealed;
     // final String a2z = "abcdefghijklmnopqrstuvwxyz";
 
@@ -49,7 +49,7 @@ public class HangMan {
         for (int ii = 0; ii < word.length(); ++ii) {
             // ToDo 1 :: replace * with _  in wordRevealed.
             // Yes, this is THAT simple.
-            wordRevealed += "*";
+            wordRevealed += "_";
         }
 
         numOfTries = 0;
@@ -75,7 +75,7 @@ public class HangMan {
         // ToDo 2 :: Does character c appear in lettersTried? 
         //     Hint 1 :: Repalce the 'false' below with a check
         //     Hint 2 :: Use indexOf()
-        if (false) {
+        if (lettersTried.indexOf(c) >= 0) {
             messageToPlayer = "\n*** Message: You already tried letter \"" + c + "\".";
             ++numOfFailedTries;
             return;
@@ -84,16 +84,26 @@ public class HangMan {
         // Just a note: 
         // Right now the letters are not shown in Alphabetic order
         // Extra challenge: Keep them IN order.
-        lettersTried += c;
-
+        
         // Does the letter appear in the word?
         // ToDo 3 :: Does character c appear in the word? 
         //   does Not Appear : true
         //   does Appear:  false
         //     Hint 1 :: Repalce the 'true' below with the appropriate check
         //     Hint 2 :: use wordLowerCase, as the letter might be upper case in the original word.
-        if (true) {
+        if (wordLowerCase.indexOf(c) < 0) {
 	    messageToPlayer = "\n*** Message: The letter \"" + c + "\" does not appear in the word.";
+            if (c == 'a') {
+                lettersTried = 'a' + lettersTried;
+            } else {
+                for (int i=0; i<lettersTried.length();i++) {
+                    if ((int)lettersTried.charAt(i) < (int)c) {
+                        if ((int)lettersTried.charAt(i+1) > (int)c) {
+                            lettersTried = lettersTried.substring(0,(int)c-97) + c + lettersTried.substring((int)c-96,lettersTried.length());
+                        }
+                    }
+                }
+            }
             ++numOfFailedTries;
             return;
         }
@@ -102,9 +112,17 @@ public class HangMan {
         int fromIndex = 0;
         int idx = wordLowerCase.indexOf(c, fromIndex);
         int foundCount = 0;
+        String newwordRevealed;
         while (idx >= 0) {
             ++foundCount;
 
+            newwordRevealed = wordRevealed;
+            
+            if (wordLowerCase.charAt(idx) == c) {
+                newwordRevealed = newwordRevealed.substring(0,idx) + c + newwordRevealed.substring(idx+1,wordRevealed.length());
+                wordRevealed = newwordRevealed;
+            }
+            
             // ToDo 4 :: Create a new wordRevealed, 
             // where the element at index idx is changed to be the appropriate one
             // That means, 'replacing' the element at the idx location.
@@ -113,8 +131,7 @@ public class HangMan {
             // You will need to replace the line below.
             // Hint :: The letter in the real word might be Uppercase letter. So
             // pay attention to where the letter is taken from.
-            wordRevealed = wordRevealed;		
-
+            
             fromIndex = idx + 1;
             idx = wordLowerCase.indexOf(c, fromIndex);
         }
@@ -126,13 +143,13 @@ public class HangMan {
     public boolean isDone() {
         // ToDo 5 :: Is wordRevealed the same as word? 
         // use compareTo() to replace the 'false' below	
-        if (false) {
-	    messageToPlayer = "*** You solved it!!";
+        if (wordRevealed.compareTo(wordLowerCase) == 0) {
+            messageToPlayer = "*** You solved it!!";
             return true;
         }
         // ToDo 6 :: Does the number of failedTries exceeds 6? 
         // Check for >=	to replace the 'false' below
-        if (false) {
+        if (numOfFailedTries >= 6) {
 	    messageToPlayer = "*** You lost!!";
             return true;
         }
@@ -173,14 +190,14 @@ public class HangMan {
                     // ToDo 7 :: Print the left leg.
                     // You will need to replace the String which is printed
                     // below with something else.
-                    System.out.println("  ||      ");
+                    System.out.println("  ||   / ");
                 }
                 if (numOfFailedTries == 6) {
                     // ToDo 8 :: Print the right leg.
                     // You will need to replace the String which is printed
                     // below with something else.
                     // Hint :: Escape sequences.
-                    System.out.println("  ||      ");
+                    System.out.println("  ||   / \\ ");
                 }
             }
         }
