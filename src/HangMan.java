@@ -165,7 +165,7 @@ public class HangMan {
     public boolean isDone() {
         // ToDo 5 :: Is wordRevealed the same as word? 
         // use compareTo() to replace the 'false' below	
-        if (wordRevealed.compareTo(wordLowerCase) == 0) {
+        if (wordRevealed.toLowerCase().compareTo(wordLowerCase) == 0) {
             messageToPlayer = "*** You solved it!!";
             return true;
         }
