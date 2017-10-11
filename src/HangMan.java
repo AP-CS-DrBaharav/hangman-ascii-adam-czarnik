@@ -139,6 +139,12 @@ public class HangMan {
                 wordRevealed = newwordRevealed;
             }
             
+            
+            if (wordRevealed.charAt(0) != '_') {
+                wordRevealed = wordRevealed.substring(0,1).toUpperCase() + wordRevealed.substring(1,wordRevealed.length());
+            }
+            
+            
             // ToDo 4 :: Create a new wordRevealed, 
             // where the element at index idx is changed to be the appropriate one
             // That means, 'replacing' the element at the idx location.
