@@ -16,7 +16,7 @@ public class HangMan {
 
     String word;
     String wordLowerCase;
-    String lettersTried = "                          ";
+    String lettersTried;
     String wordRevealed;
     // final String a2z = "abcdefghijklmnopqrstuvwxyz";
 
@@ -95,11 +95,27 @@ public class HangMan {
 	    messageToPlayer = "\n*** Message: The letter \"" + c + "\" does not appear in the word.";
             if (c == 'a') {
                 lettersTried = 'a' + lettersTried;
+            } else if (lettersTried.length() == 0){
+                lettersTried += c;
+            } else if (lettersTried.length() == 1) {
+                if ((int)lettersTried.charAt(0) < (int)c) {
+                    lettersTried = lettersTried + c;
+                } else {
+                    lettersTried = c + lettersTried;
+                }
+            } else if (lettersTried.length() == 2) {
+                if ((int)lettersTried.charAt(0) < (int)c && (int)lettersTried.charAt(1) < c) {
+                    lettersTried = lettersTried + c;
+                } else if ((int)lettersTried.charAt(0) < (int)c && (int)lettersTried.charAt(1) > (int)c) {
+                    lettersTried = lettersTried.substring(0,1) + c + lettersTried.substring(1,2);
+                } else {
+                    lettersTried = c + lettersTried;
+                }
             } else {
                 for (int i=0; i<lettersTried.length();i++) {
                     if ((int)lettersTried.charAt(i) < (int)c) {
                         if ((int)lettersTried.charAt(i+1) > (int)c) {
-                            lettersTried = lettersTried.substring(0,(int)c-97) + c + lettersTried.substring((int)c-96,lettersTried.length());
+                            lettersTried = lettersTried.substring(0,i+1) + c + lettersTried.substring(i+1,lettersTried.length());
                         }
                     }
                 }
