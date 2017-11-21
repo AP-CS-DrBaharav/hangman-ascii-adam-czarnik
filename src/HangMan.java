@@ -93,9 +93,7 @@ public class HangMan {
         //     Hint 2 :: use wordLowerCase, as the letter might be upper case in the original word.
         if (wordLowerCase.indexOf(c) < 0) {
 	    messageToPlayer = "\n*** Message: The letter \"" + c + "\" does not appear in the word.";
-            if (c == 'a') {
-                lettersTried = 'a' + lettersTried;
-            } else if (lettersTried.length() == 0){
+            if (lettersTried.length() == 0){
                 lettersTried += c;
             } else if (lettersTried.length() == 1) {
                 if ((int)lettersTried.charAt(0) < (int)c) {
@@ -111,6 +109,8 @@ public class HangMan {
                 } else {
                     lettersTried = c + lettersTried;
                 }
+            } else if (c == 'a') {
+                lettersTried = c + lettersTried;
             } else {
                 for (int i=0; i<lettersTried.length();i++) {
                     if ((int)lettersTried.charAt(i) < (int)c) {
